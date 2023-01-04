@@ -1,35 +1,20 @@
 "use strict";
 
 import Player from '@vimeo/player';
+import throttle from "lodash.throttle";
 
-const player = new Player('handstick', {
-  id: 19231868,
-  width: 640,
-});
+const iframe = document.querySelector("#vimeo-player");
+const player = new Player(iframe);
 
-player.on('play', function () {
-  console.log('played the video!');
-});
+const STORAGE_KEY = 'videoplayer-current-time';
 
-
-
-//event listener:
-const onPlay = function (timeupdate) {
-  // data is an object containing properties specific to that event
+const updatedTime = ({ seconds } = 0) => {
+  localStorage.setItem(STORAGE_KEY, seconds);
+}
+const getStoredTime = () => {
+  return localStorage.getItem(STORAGE_KEY);
 };
-console.log(onPlay);
-//player.on('play', onPlay);
 
-// //to remove event listener:
-// const onPlay = function (data) {
-//   // data is an object containing properties specific to that event
-// };
+player.setCurrentTime(getStoredTime());
 
-// player.on('play', onPlay);
-
-// // If later on you decide that you don’t need to listen for play anymore.
-// player.off('play', onPlay);
-
-// // Alternatively, `off` can be called with just the event name to remove all
-// // listeners.
-// player.off('play');
+player.on("timeupdate", throttle(updatedTime, 1000));
