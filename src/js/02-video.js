@@ -12,12 +12,13 @@ player.on('play', function () {
 });
 
 
-// //event listener:
-// const onPlay = function (data) {
-//   // data is an object containing properties specific to that event
-// };
 
-// player.on('play', onPlay);
+//event listener:
+const onPlay = function (timeupdate) {
+  // data is an object containing properties specific to that event
+};
+console.log(onPlay);
+//player.on('play', onPlay);
 
 // //to remove event listener:
 // const onPlay = function (data) {
